@@ -1,4 +1,4 @@
-package com.tuandi.architecture.ui.dialogs
+package com.tuandi.architecture.example.ui.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
@@ -11,7 +11,7 @@ import com.afollestad.materialdialogs.callbacks.onDismiss
 
 class ConfirmDialog(private val titleRes: Int, private val contentRes: Int) : DialogFragment() {
     companion object {
-        private const val TAG = "AboutDialog"
+        private const val TAG = "ConfirmDialog"
 
         fun show(activity: FragmentActivity, @StringRes title: Int, @StringRes content: Int) =
             ConfirmDialog(title, content).show(
@@ -22,7 +22,7 @@ class ConfirmDialog(private val titleRes: Int, private val contentRes: Int) : Di
 
     @NonNull
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialDialog(activity!!).show {
+        return MaterialDialog(requireContext()).show {
             title(titleRes)
             message(contentRes)
             positiveButton(text = "positiveButton")
