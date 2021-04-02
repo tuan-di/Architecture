@@ -1,4 +1,4 @@
-package com.tuandi.architecture.example.mapper
+package com.tuandi.architecture.example.network.models
 
 /**
  * A customized error response.

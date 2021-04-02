@@ -2,7 +2,6 @@ package com.tuandi.architecture.example.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.skydoves.sandwich.coroutines.CoroutinesResponseCallAdapterFactory
 import com.tuandi.architecture.BuildConfig
 import com.tuandi.architecture.example.network.api.PokemonApi
 import dagger.Module
@@ -11,6 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -44,7 +44,7 @@ object NetworkModule {
             .client(okHttpClient)
             .baseUrl("https://pokeapi.co/api/v2/")
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(CoroutinesResponseCallAdapterFactory())
+            .addCallAdapterFactory(CallAdapter.Factory())
             .build()
     }
 

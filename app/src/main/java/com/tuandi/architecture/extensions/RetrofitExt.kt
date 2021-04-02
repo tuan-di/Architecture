@@ -1,7 +1,7 @@
 package com.tuandi.architecture.extensions
 
 import com.google.gson.Gson
-import com.tuandi.architecture.example.mapper.ErrorResponse
+import com.tuandi.architecture.example.network.models.ErrorResponse
 import com.tuandi.architecture.network.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
