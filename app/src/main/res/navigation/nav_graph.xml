@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/listFragment">
+    app:startDestination="@id/pagingFragment">
 
     <fragment
         android:id="@+id/listFragment"
@@ -15,5 +15,14 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.tuandi.architecture.example.ui.fragments.detail.DetailFragment"
-        android:label="DetailFragment" />
+        android:label="DetailFragment">
+        <argument
+            android:name="pokemon"
+            app:argType="com.tuandi.architecture.example.network.models.Pokemon" />
+    </fragment>
+    <fragment
+        android:id="@+id/pagingFragment"
+        android:name="com.tuandi.architecture.example.ui.fragments.paging.PagingFragment"
+        android:label="PagingFragment" />
+
 </navigation>

@@ -9,22 +9,24 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketTimeoutException
 
+
 suspend fun <T : Any> safeApiCall(
     dispatcher: CoroutineDispatcher,
     apiCall: suspend () -> T
 ): Result<T> {
     return withContext(dispatcher) {
         try {
-            Result.Success(apiCall.invoke())
+            val res = apiCall.invoke()
+            Result.Success(res)
         } catch (throwable: Throwable) {
             when (throwable) {
-                is IOException, is SocketTimeoutException -> Result.Error(errorMessage = "Network error")
+                is IOException, is SocketTimeoutException -> Result.Error(errorMessage = throwable.message)
                 is HttpException -> {
                     val errorResponse = convertErrorBody(throwable)
                     Result.Error(errorResponse = errorResponse)
                 }
                 else -> {
-                    Result.Error(errorMessage = "Error")
+                    Result.Error(errorMessage = throwable.message)
                 }
             }
         }
@@ -42,7 +44,7 @@ private fun convertErrorBody(throwable: HttpException): ErrorResponse? {
 }
 
 inline fun <T : Any> Result<T>.onError(
-    crossinline onResult: Result.Error.() -> Unit
+    onResult: Result.Error.() -> Unit
 ): Result<T> {
     if (this is Result.Error) {
         onResult(this)
@@ -51,7 +53,7 @@ inline fun <T : Any> Result<T>.onError(
 }
 
 inline fun <T : Any> Result<T>.onSuccess(
-    crossinline onResult: T.() -> Unit
+    onResult: T.() -> Unit
 ): Result<T> {
     if (this is Result.Success) {
         onResult(this.data)

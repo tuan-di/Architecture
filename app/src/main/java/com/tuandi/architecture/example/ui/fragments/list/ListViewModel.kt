@@ -1,6 +1,5 @@
 package com.tuandi.architecture.example.ui.fragments.list
 
-import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -16,8 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor(private val repository: MainRepository) : BaseViewModel() {
-    private val _pokemons = MutableLiveData<List<Pokemon>>()
-    val pokemons: LiveData<List<Pokemon>> get() = _pokemons
+    private val _pokemonList = MutableLiveData<List<Pokemon>>()
+    val pokemonList: LiveData<List<Pokemon>> get() = _pokemonList
 
     fun getPokemon(page: Int = 0) {
         viewModelScope.launch {
@@ -26,16 +25,9 @@ class ListViewModel @Inject constructor(private val repository: MainRepository) 
                 .onError {
                     Timber.e(this.errorMessage)
                 }.onSuccess {
-                    _pokemons.postValue(this.results)
+                    _pokemonList.postValue(this.results)
                 }
             hideLoading()
-        }
-    }
-
-    @MainThread
-    fun fetchNextPokemonList() {
-        if (!loading.get()) {
-
         }
     }
 }

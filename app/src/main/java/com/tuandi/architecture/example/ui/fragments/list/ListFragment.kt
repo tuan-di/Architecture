@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.tuandi.architecture.R
 import com.tuandi.architecture.base.BaseFragment
 import com.tuandi.architecture.databinding.FragmentListBinding
@@ -15,14 +16,18 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class ListFragment : BaseFragment() {
-    val viewModel: ListViewModel by viewModels()
-    private val mAdapter by lazy { PokemonAdapter() }
+    private val viewModel: ListViewModel by viewModels()
+    private val mAdapter: PokemonAdapter by lazy {
+        PokemonAdapter {
+            findNavController().navigate(ListFragmentDirections.actionListFragmentToDetailFragment(mAdapter.currentList[it]))
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return binding<FragmentListBinding>(
             inflater,
             R.layout.fragment_list, container
@@ -36,7 +41,7 @@ class ListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.apply {
-            pokemons.observe(this@ListFragment) {
+            pokemonList.observe(this@ListFragment) {
                 Timber.e(it.size.toString())
             }
             getPokemon()

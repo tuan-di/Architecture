@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tuandi.architecture.databinding.ItemPokemonBinding
 import com.tuandi.architecture.example.network.models.Pokemon
 
-class PokemonAdapter : ListAdapter<Pokemon, RecyclerView.ViewHolder>(PokemonDiffCallback()) {
+class PokemonAdapter constructor(val clickPokemon: (pos: Int) -> Unit) :
+    ListAdapter<Pokemon, RecyclerView.ViewHolder>(PokemonDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return NotificationViewHolder(
@@ -32,7 +33,7 @@ class PokemonAdapter : ListAdapter<Pokemon, RecyclerView.ViewHolder>(PokemonDiff
         fun bind(item: Pokemon) {
             binding.apply {
                 root.setOnClickListener {
-//                    onClick(it, adapterPosition)
+                    clickPokemon(adapterPosition)
                 }
                 model = item
                 executePendingBindings()

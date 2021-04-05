@@ -16,7 +16,7 @@ abstract class BaseFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return binding<FragmentListBinding>(
             inflater,
             R.layout.fragment_list, container

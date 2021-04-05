@@ -11,7 +11,7 @@
 
         <variable
             name="adapter"
-            type="com.tuandi.architecture.example.ui.adapters.PokemonAdapter" />
+            type="com.tuandi.architecture.example.ui.adapters.ReposAdapter" />
     </data>
 
     <LinearLayout
@@ -28,7 +28,7 @@
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
             app:adapter="@{adapter}"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:submitList="@{vm.pokemonList}"
             tools:listitem="@layout/item_pokemon" />
     </LinearLayout>

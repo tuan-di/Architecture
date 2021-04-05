@@ -8,4 +8,4 @@ import kotlinx.android.parcel.Parcelize
 data class Pokemon(
     val name: String,
     val url: String
-) : Parcelable
+): Parcelable

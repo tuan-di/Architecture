@@ -13,7 +13,7 @@ class MainRepository @Inject constructor(
 ) {
 
     @WorkerThread
-    suspend fun fetchPokemonList(page: Int, ) = safeApiCall(Dispatchers.IO) {
+    suspend fun fetchPokemonList(page: Int) = safeApiCall(Dispatchers.IO) {
         pokemonApi.fetchPokemonList(
             limit = PAGING_SIZE,
             offset = page * PAGING_SIZE
