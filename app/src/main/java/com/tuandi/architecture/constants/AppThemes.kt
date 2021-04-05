@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate
 enum class AppThemes(val rawValue: String, val themeRes: Int) {
     LIGHT("light", AppCompatDelegate.MODE_NIGHT_YES),
     DARK("dark", AppCompatDelegate.MODE_NIGHT_NO),
-    BLACK("black", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+    BLACK("auto", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
     companion object {
         fun fromString(raw: String): AppThemes {

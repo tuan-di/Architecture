@@ -29,7 +29,6 @@
             android:scrollbars="vertical"
             app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:submitList="@{vm.pokemonList}"
             tools:listitem="@layout/item_pokemon" />
     </LinearLayout>
 </layout>

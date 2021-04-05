@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="vm"
-            type="com.tuandi.architecture.example.ui.fragments.list.ListViewModel" />
-
-        <variable
             name="adapter"
             type="com.tuandi.architecture.example.ui.adapters.ReposAdapter" />
     </data>
@@ -29,7 +25,6 @@
             android:scrollbars="vertical"
             app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:submitList="@{vm.pokemonList}"
             tools:listitem="@layout/item_pokemon" />
     </LinearLayout>
 </layout>

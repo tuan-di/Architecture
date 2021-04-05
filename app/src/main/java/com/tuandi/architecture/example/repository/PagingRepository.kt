@@ -2,9 +2,9 @@ package com.tuandi.architecture.example.repository
 
 import com.tuandi.architecture.example.network.api.GithubApi
 import com.tuandi.architecture.example.network.models.Repo
-import com.tuandi.architecture.extensions.onError
-import com.tuandi.architecture.extensions.onSuccess
 import com.tuandi.architecture.extensions.safeApiCall
+import com.tuandi.architecture.extensions.suspendOnFailure
+import com.tuandi.architecture.extensions.suspendOnSuccess
 import com.tuandi.architecture.network.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -45,13 +45,13 @@ class PagingRepository @Inject constructor(
         val apiQuery = query + IN_QUALIFIER
         safeApiCall(Dispatchers.IO) {
             githubApi.searchRepos(apiQuery, lastRequestedPage, NETWORK_PAGE_SIZE)
-        }.onSuccess {
+        }.suspendOnSuccess {
             val repos = this.items
             inMemoryCache.addAll(repos)
             val reposByName = reposByName(query)
             searchResults.emit(Result.Success(reposByName))
             successful = true
-        }.onError {
+        }.suspendOnFailure {
             searchResults.emit(this)
         }
         isRequestInProgress = false
@@ -70,8 +70,6 @@ class PagingRepository @Inject constructor(
     }
 
     private fun reposByName(query: String): List<Repo> {
-        // from the in memory cache select only the repos whose name or description matches
-        // the query. Then order the results.
         return inMemoryCache.filter {
             it.name.contains(query, true) ||
                     (it.description != null && it.description.contains(query, true))

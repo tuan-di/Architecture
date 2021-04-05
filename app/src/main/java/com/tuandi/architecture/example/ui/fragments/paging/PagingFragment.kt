@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,8 +11,9 @@ import com.tuandi.architecture.R
 import com.tuandi.architecture.base.BaseFragment
 import com.tuandi.architecture.databinding.FragmentPagingBinding
 import com.tuandi.architecture.example.ui.adapters.ReposAdapter
-import com.tuandi.architecture.extensions.onError
+import com.tuandi.architecture.extensions.onFailure
 import com.tuandi.architecture.extensions.onSuccess
+import com.tuandi.architecture.extensions.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,7 +38,6 @@ class PagingFragment : BaseFragment() {
                     val totalItemCount = layoutManager.itemCount
                     val visibleItemCount = layoutManager.childCount
                     val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
-
                     viewModel.listScrolled(visibleItemCount, lastVisibleItem, totalItemCount)
                 }
             })
@@ -52,9 +51,8 @@ class PagingFragment : BaseFragment() {
             repoResult.observe(viewLifecycleOwner, {
                 it.onSuccess {
                     mAdapter.submitList(this)
-                }
-                it.onError {
-                    Toast.makeText(requireContext(), this.errorMessage, Toast.LENGTH_SHORT).show()
+                }.onFailure {
+                    requireContext().toast(this.errorMessage)
                 }
             })
         }

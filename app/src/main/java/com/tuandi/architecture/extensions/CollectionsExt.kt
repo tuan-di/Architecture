@@ -1,9 +1,6 @@
 package com.tuandi.architecture.extensions
 
-fun <T> List<T>?.moveElement(fromIndex: Int, toIndex: Int): List<T> {
-    if (this == null) {
-        return emptyList()
-    }
+fun <T> List<T>.moveElement(fromIndex: Int, toIndex: Int): List<T> {
     return toMutableList().apply { add(toIndex, removeAt(fromIndex)) }
 }
 

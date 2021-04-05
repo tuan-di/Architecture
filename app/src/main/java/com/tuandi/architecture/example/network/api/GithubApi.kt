@@ -1,6 +1,6 @@
 package com.tuandi.architecture.example.network.api
 
-import com.tuandi.architecture.example.network.models.RepoSearchResponse
+import com.tuandi.architecture.example.network.models.RepoResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,5 +10,5 @@ interface GithubApi {
         @Query("q") query: String,
         @Query("page") page: Int,
         @Query("per_page") itemsPerPage: Int
-    ): RepoSearchResponse
+    ): RepoResponse
 }

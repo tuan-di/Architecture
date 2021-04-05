@@ -2,6 +2,7 @@ package com.tuandi.architecture.extensions
 
 import com.google.gson.Gson
 import com.tuandi.architecture.example.network.models.ErrorResponse
+import com.tuandi.architecture.helper.SuspensionFunction
 import com.tuandi.architecture.network.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -20,13 +21,13 @@ suspend fun <T : Any> safeApiCall(
             Result.Success(res)
         } catch (throwable: Throwable) {
             when (throwable) {
-                is IOException, is SocketTimeoutException -> Result.Error(errorMessage = throwable.message)
+                is IOException, is SocketTimeoutException -> Result.Failure(errorMessage = throwable.message)
                 is HttpException -> {
                     val errorResponse = convertErrorBody(throwable)
-                    Result.Error(errorResponse = errorResponse)
+                    Result.Failure(errorResponse = errorResponse)
                 }
                 else -> {
-                    Result.Error(errorMessage = throwable.message)
+                    Result.Failure(errorMessage = throwable.message)
                 }
             }
         }
@@ -43,15 +44,40 @@ private fun convertErrorBody(throwable: HttpException): ErrorResponse? {
     }
 }
 
-inline fun <T : Any> Result<T>.onError(
-    onResult: Result.Error.() -> Unit
+@JvmSynthetic
+@SuspensionFunction
+suspend inline fun <T : Any> Result<T>.suspendOnSuccess(
+    crossinline onResult: suspend T.() -> Unit
 ): Result<T> {
-    if (this is Result.Error) {
+    if (this is Result.Success) {
+        onResult(this.data)
+    }
+    return this
+}
+
+
+@JvmSynthetic
+@SuspensionFunction
+suspend inline fun <T : Any> Result<T>.suspendOnFailure(
+    crossinline onResult: suspend Result.Failure.() -> Unit
+): Result<T> {
+    if (this is Result.Failure) {
         onResult(this)
     }
     return this
 }
 
+@SuspensionFunction
+inline fun <T : Any> Result<T>.onFailure(
+    onResult: Result.Failure.() -> Unit
+): Result<T> {
+    if (this is Result.Failure) {
+        onResult(this)
+    }
+    return this
+}
+
+@SuspensionFunction
 inline fun <T : Any> Result<T>.onSuccess(
     onResult: T.() -> Unit
 ): Result<T> {
@@ -60,4 +86,6 @@ inline fun <T : Any> Result<T>.onSuccess(
     }
     return this
 }
+
+
 
