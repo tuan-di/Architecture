@@ -9,6 +9,7 @@ import com.tuandi.architecture.network.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 private const val PAGING_SIZE = 20
@@ -35,7 +36,9 @@ class MainRepository @Inject constructor(
         return searchResults
     }
 
-    suspend fun pokemonInfo(name: String) = safeApiCall(Dispatchers.IO) {
-        pokemonApi.fetchPokemonInfo(name)
+    suspend fun pokemonInfo(name: String) = flow {
+        safeApiCall(Dispatchers.IO) {
+            emit(pokemonApi.fetchPokemonInfo(name))
+        }
     }
 }

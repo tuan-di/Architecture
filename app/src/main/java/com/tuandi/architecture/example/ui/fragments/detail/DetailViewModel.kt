@@ -26,7 +26,6 @@ class DetailViewModel @AssistedInject constructor(
     val pokemonInfo: LiveData<Result<PokemonInfo>> =
         liveData {
             repository.pokemonInfo(pokemonName)
-            Timber.e("123")
         }
 
     companion object {
