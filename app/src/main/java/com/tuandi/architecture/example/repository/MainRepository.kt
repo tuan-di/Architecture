@@ -34,4 +34,8 @@ class MainRepository @Inject constructor(
     fun fetchPokemonListStream(): Flow<Result<List<Pokemon>>> {
         return searchResults
     }
+
+    suspend fun pokemonInfo(name: String) = safeApiCall(Dispatchers.IO) {
+        pokemonApi.fetchPokemonInfo(name)
+    }
 }

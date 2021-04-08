@@ -7,9 +7,11 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import timber.log.Timber
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment constructor(@LayoutRes val contentLayoutId: Int) :
+    Fragment() {
 
     /*
         override fun onCreateView(
@@ -19,7 +21,7 @@ abstract class BaseFragment : Fragment() {
     ): View {
         return binding<FragmentListBinding>(
             inflater,
-            R.layout.fragment_list, container
+             container
         ).apply {
             lifecycleOwner = this@ListFragment
         }.root
@@ -28,9 +30,8 @@ abstract class BaseFragment : Fragment() {
 
     protected inline fun <reified T : ViewDataBinding> binding(
         inflater: LayoutInflater,
-        @LayoutRes resId: Int,
         container: ViewGroup?
-    ): T = DataBindingUtil.inflate(inflater, resId, container, false)
+    ): T = DataBindingUtil.inflate(inflater, contentLayoutId, container, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -17,7 +17,7 @@ import com.tuandi.architecture.extensions.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PagingFragment : BaseFragment() {
+class PagingFragment : BaseFragment(R.layout.fragment_paging) {
     private val viewModel: PagingViewModel by viewModels()
     private val mAdapter = ReposAdapter()
 
@@ -27,8 +27,7 @@ class PagingFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         return binding<FragmentPagingBinding>(
-            inflater,
-            R.layout.fragment_paging, container
+            inflater, container
         ).apply {
             adapter = mAdapter
             val layoutManager = recyclerView.layoutManager as LinearLayoutManager

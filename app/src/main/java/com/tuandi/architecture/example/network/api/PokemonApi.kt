@@ -1,7 +1,9 @@
 package com.tuandi.architecture.example.network.api
 
+import com.tuandi.architecture.example.network.models.PokemonInfo
 import com.tuandi.architecture.example.network.models.PokemonResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface PokemonApi {
@@ -12,6 +14,6 @@ interface PokemonApi {
         @Query("offset") offset: Int = 0
     ): PokemonResponse
 
-//  @GET("pokemon/{name}")
-//  suspend fun fetchPokemonInfo(@Path("name") name: String): ApiResponse<PokemonInfo>
+    @GET("pokemon/{name}")
+    suspend fun fetchPokemonInfo(@Path("name") name: String): PokemonInfo
 }
