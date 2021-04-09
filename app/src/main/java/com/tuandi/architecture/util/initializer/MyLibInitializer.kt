@@ -1,9 +1,10 @@
-package com.tuandi.architecture.initializer
+package com.tuandi.architecture.util.initializer
 
 import android.content.Context
 import androidx.startup.Initializer
 import com.tuandi.architecture.BuildConfig
-import com.tuandi.architecture.log.DebugTree
+import com.tuandi.architecture.util.initializer.log.CrashlyticsTree
+import com.tuandi.architecture.util.initializer.log.DebugTree
 import timber.log.Timber
 
 class MyLibInitializer : Initializer<Unit> {
@@ -11,6 +12,8 @@ class MyLibInitializer : Initializer<Unit> {
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
             Timber.i("Timber initialized")
+        } else {
+            Timber.plant(CrashlyticsTree())
         }
         return
     }

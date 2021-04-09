@@ -1,4 +1,4 @@
-package com.tuandi.architecture.log
+package com.tuandi.architecture.util.initializer.log
 
 import timber.log.Timber
 

@@ -30,7 +30,7 @@
             android:exported="false"
             tools:node="merge">
             <meta-data
-                android:name="com.tuandi.architecture.initializer.MyLibInitializer"
+                android:name="com.tuandi.architecture.util.initializer.MyLibInitializer"
                 android:value="androidx.startup" />
         </provider>
     </application>

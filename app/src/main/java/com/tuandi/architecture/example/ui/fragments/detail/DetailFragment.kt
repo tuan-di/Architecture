@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.tuandi.architecture.R
 import com.tuandi.architecture.base.BaseFragment
 import com.tuandi.architecture.databinding.FragmentDetailBinding
 import com.tuandi.architecture.example.network.models.Pokemon
-import com.tuandi.architecture.extensions.onSuccess
 import com.tuandi.architecture.extensions.toast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -45,11 +45,11 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.apply {
-            pokemonInfo.observe(viewLifecycleOwner, {
-                it.onSuccess {
-                    requireContext().toast(this.name)
-                }
-            })
+            pokemonInfo.observe(viewLifecycleOwner) {
+                requireContext().toast(it.name)
+            }
         }
+
+        lifecycleScope.launchWhenResumed { }
     }
 }

@@ -17,7 +17,7 @@ import com.tuandi.architecture.extensions.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ListFragment : BaseFragment( R.layout.fragment_list) {
+class ListFragment : BaseFragment(R.layout.fragment_list) {
     private val viewModel: ListViewModel by viewModels()
     private val mAdapter: PokemonAdapter by lazy {
         PokemonAdapter {
@@ -43,6 +43,7 @@ class ListFragment : BaseFragment( R.layout.fragment_list) {
             refresh.setOnRefreshListener {
                 viewModel.getPokemon()
             }
+            vm = viewModel
             lifecycleOwner = this@ListFragment
         }
         return binding.root
