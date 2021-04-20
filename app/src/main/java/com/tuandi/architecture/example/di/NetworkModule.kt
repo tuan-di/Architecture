@@ -21,12 +21,6 @@ const val GITHUB = "GITHUB"
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    @Provides
-    @Singleton
-    fun provideGson(): Gson {
-        val gsonBuilder = GsonBuilder()
-        return gsonBuilder.create()
-    }
 
     @Provides
     @Singleton

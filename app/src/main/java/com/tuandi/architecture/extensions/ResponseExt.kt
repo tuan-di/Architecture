@@ -67,7 +67,7 @@ suspend inline fun <T : Any> Result<T>.suspendOnFailure(
     return this
 }
 
-@SuspensionFunction
+@JvmSynthetic
 inline fun <T : Any> Result<T>.onFailure(
     onResult: Result.Failure.() -> Unit
 ): Result<T> {
@@ -77,7 +77,7 @@ inline fun <T : Any> Result<T>.onFailure(
     return this
 }
 
-@SuspensionFunction
+@JvmSynthetic
 inline fun <T : Any> Result<T>.onSuccess(
     onResult: T.() -> Unit
 ): Result<T> {

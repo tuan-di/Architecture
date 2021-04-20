@@ -19,7 +19,7 @@
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:refreshing="@{vm.loading}"
+        app:refreshing="@{vm.inProgress}"
         app:srlDisableContentWhenRefresh="true">
 
         <com.tuandi.architecture.example.ui.fragments.list.MyClassicsHeader

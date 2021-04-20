@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,11 @@ fun bindSubmitList(view: RecyclerView, itemList: List<Any>?) {
 fun bindRefreshing(view: SmartRefreshLayout, loading: Boolean) {
     if (!loading)
         view.finishRefresh()
+}
+
+@BindingAdapter("inProgress")
+fun bindInProgress(view: ProgressBar, loading: Boolean) {
+    view.visibility = if (loading) View.VISIBLE else View.GONE
 }
 
 @BindingAdapter("goneUnless")

@@ -6,19 +6,23 @@
     <data>
 
         <variable
+            name="vm"
+            type="com.tuandi.architecture.example.ui.fragments.paging.PagingViewModel" />
+
+        <variable
             name="adapter"
             type="com.tuandi.architecture.example.ui.adapters.ReposAdapter" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
             android:fadeScrollbars="false"
             android:padding="6dp"
             android:scrollbarStyle="outsideOverlay"
@@ -26,5 +30,12 @@
             app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_pokemon" />
-    </LinearLayout>
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:inProgress="@{vm.inProgress}" />
+
+    </FrameLayout>
 </layout>

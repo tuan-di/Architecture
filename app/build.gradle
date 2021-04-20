@@ -54,7 +54,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     //Coroutine shared
-    implementation "com.afollestad.rxkprefs:coroutines:2.0.3"
+    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha08"
 
     implementation "androidx.startup:startup-runtime:1.0.0"
 
@@ -68,7 +68,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
+//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
 
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
 

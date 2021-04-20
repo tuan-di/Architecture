@@ -1,5 +1,6 @@
 package com.tuandi.architecture.example.repository
 
+import androidx.annotation.WorkerThread
 import com.tuandi.architecture.example.network.api.GithubApi
 import com.tuandi.architecture.example.network.models.Repo
 import com.tuandi.architecture.extensions.safeApiCall
@@ -18,9 +19,7 @@ private const val GITHUB_STARTING_PAGE_INDEX = 1
 class PagingRepository @Inject constructor(
     private val githubApi: GithubApi
 ) {
-    // shared flow of results, which allows us to broadcast updates so
-    // the subscriber will have the latest data
-    private val searchResults = MutableSharedFlow<Result<List<Repo>>>(replay = 1)
+
 
     // avoid triggering multiple requests in the same time
     private var isRequestInProgress = false
@@ -39,6 +38,9 @@ class PagingRepository @Inject constructor(
         }
     }
 
+
+
+    @WorkerThread
     private suspend fun requestAndSaveData(query: String): Boolean {
         isRequestInProgress = true
         var successful = false
@@ -48,7 +50,7 @@ class PagingRepository @Inject constructor(
         }.suspendOnSuccess {
             val repos = this.items
             inMemoryCache.addAll(repos)
-            val reposByName = reposByName(query)
+            val reposByName = reposByName()
             searchResults.emit(Result.Success(reposByName))
             successful = true
         }.suspendOnFailure {
@@ -58,21 +60,45 @@ class PagingRepository @Inject constructor(
         return successful
     }
 
+    // shared flow of results, which allows us to broadcast updates so
+    // the subscriber will have the latest data
+    private val searchResults = MutableSharedFlow<Result<List<Repo>>>()
+
     /**
      * Search repositories whose names match the query, exposed as a stream of data that will emit
      * every time we get more data from the network.
      */
-    suspend fun getSearchResultStream(query: String): Flow<Result<List<Repo>>> {
+    suspend fun getSearchResultStream(): Flow<Result<List<Repo>>> {
         lastRequestedPage = 1
         inMemoryCache.clear()
         requestAndSaveData(query)
         return searchResults
     }
 
-    private fun reposByName(query: String): List<Repo> {
+    private fun reposByName(): List<Repo> {
         return inMemoryCache.filter {
             it.name.contains(query, true) ||
                     (it.description != null && it.description.contains(query, true))
         }.sortedWith(compareByDescending<Repo> { it.stars }.thenBy { it.name })
+    }
+
+    val query = "android"
+
+    suspend fun loadPage(page: Int) {
+        isRequestInProgress = true
+        var successful = false
+        val apiQuery = query + IN_QUALIFIER
+        safeApiCall(Dispatchers.IO) {
+            githubApi.searchRepos(apiQuery, page, NETWORK_PAGE_SIZE)
+        }.suspendOnSuccess {
+            val repos = this.items
+            inMemoryCache.addAll(repos)
+            val reposByName = reposByName()
+            searchResults.emit(Result.Success(reposByName))
+            successful = true
+        }.suspendOnFailure {
+            searchResults.emit(this)
+        }
+        isRequestInProgress = false
     }
 }

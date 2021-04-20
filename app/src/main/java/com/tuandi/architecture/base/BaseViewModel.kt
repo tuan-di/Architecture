@@ -1,17 +1,20 @@
 package com.tuandi.architecture.base
 
-import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 abstract class BaseViewModel : ViewModel() {
-    val loading = ObservableBoolean(false)
+    val inProgress: LiveData<Boolean>
+        get() = _inProgress
+    private val _inProgress = MutableLiveData(false)
 
     fun hideLoading() {
-        loading.set(false)
+        _inProgress.value = false
     }
 
     fun showLoading() {
-        loading.set(true)
+        _inProgress.value = true
     }
 
     open fun retry() {

@@ -29,6 +29,7 @@ class ListViewModel @Inject constructor(private val repository: MainRepository) 
         viewModelScope.launch {
             repository.fetchPokemonList(page).collect {
                 _pokemonList.value = it
+                hideLoading()
             }
         }
     }
